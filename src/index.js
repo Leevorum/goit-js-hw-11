@@ -12,6 +12,7 @@ const formInput = formEl.elements.searchQuery;
 const formSearchBtn = formEl.elements[1];
 const galleryEl = document.querySelector('.gallery');
 const loadMoreBtn = document.querySelector('.load-more');
+const lastImg = document.querySelector('.photo-card:last-child');
 let querryPage = 1;
 let limit = 40;
 const totalPages = 500 / limit;
@@ -23,7 +24,7 @@ formInput.addEventListener('input', evt => {
 //Слушатель на форм по сабмиту
 formEl.addEventListener('submit', searchBtnResponse);
 //Слушатель на кнопку загрузить еще
-loadMoreBtn.addEventListener('click', loadMoreBtnResponce);
+// loadMoreBtn.addEventListener('click', loadMoreBtnResponce);
 
 //Функция для отправки запроса на кнопке поиска
 function searchBtnResponse(evt) {
@@ -44,14 +45,13 @@ function searchBtnResponse(evt) {
 function loadMoreBtnResponce() {
   if (querryPage > totalPages) {
     Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
-    loadMoreBtn.classList.add('is-hidden');
+    // loadMoreBtn.classList.add('is-hidden');
     return;
   }
   //С каждым нажатием увеличиваем счетчик страниц
   querryPage += 1;
   //Отправляем запросс
   createResponse();
-  lightboxGallery.instance.refresh();
 }
 
 //Функция для создания запроса и рендера разметки
@@ -80,7 +80,8 @@ function createResponse() {
         smoothScroll();
       }
       //Убираем лоад-мор по сабмиту
-      loadMoreBtn.classList.remove('is-hidden');
+      // loadMoreBtn.classList.remove('is-hidden');
+      loadMoreInfinity();
     })
     // // Если все плохо ловим ошибку
     .catch(onError);
@@ -88,7 +89,7 @@ function createResponse() {
 //Чистка хтмл
 function clearHtml() {
   galleryEl.innerHTML = '';
-  loadMoreBtn.classList.add('is-hidden');
+  // loadMoreBtn.classList.add('is-hidden');
 }
 //Ошибки
 function onError() {
@@ -110,6 +111,7 @@ function lightboxGallery() {
     instance.refresh();
   }
 }
+//Функция мягкой прокрутки при загрузке новых картинок
 function smoothScroll() {
   const { height: cardHeight } = document
     .querySelector('.gallery')
@@ -119,4 +121,29 @@ function smoothScroll() {
     top: cardHeight * 2,
     behavior: 'smooth',
   });
+}
+//Функция бесконечного скролла
+function loadMoreInfinity() {
+  //обьект опций
+  const options = {
+    rootMargin: '0px',
+    threshold: [0, 0.25, 0.5, 0.75, 1.0],
+  };
+  //коллбек с вызовом следующего запроса
+  const callback = function(entries, observer) {
+    //Если нужный элемент просмотрен(Intersecting:true)
+    //Сбрасываем "просмотренно", и вызываем функцию запроса
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        observer.unobserve(entry.target);
+        loadMoreBtnResponce();
+      }
+    });
+  };
+  const observer = new IntersectionObserver(callback, options);
+
+  if (lastImg) {
+    observer.observe(lastImg);
+  }
+  console.log('inf');
 }
