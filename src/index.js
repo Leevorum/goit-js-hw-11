@@ -51,6 +51,7 @@ function loadMoreBtnResponce() {
   querryPage += 1;
   //Отправляем запросс
   createResponse();
+  lightboxGallery.instance.refresh();
 }
 
 //Функция для создания запроса и рендера разметки
@@ -73,6 +74,7 @@ function createResponse() {
       galleryEl.insertAdjacentHTML('beforeend', imgDataMarkup(response));
       //галерея лайтбокс
       lightboxGallery();
+
       //Делаем мягкую прокрутку на две карточки вниз
       if (querryPage > 1) {
         smoothScroll();
@@ -94,8 +96,9 @@ function onError() {
 }
 //лайтбокс
 function lightboxGallery() {
-  new SimpleLightbox('.gallery .gallery__link', {
+  const instance = new SimpleLightbox('.gallery .gallery__link', {
     // Задержка появления подписи
+    showCounter: false,
     captionDelay: 250,
     captionSelector: 'img',
     //   Берем подпись из альта картинки
