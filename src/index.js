@@ -106,6 +106,9 @@ function lightboxGallery() {
     //   Ставим подпись вниз картинки
     captionPosition: 'bottom',
   });
+  if (querryPage > 1) {
+    instance.refresh();
+  }
 }
 function smoothScroll() {
   const { height: cardHeight } = document
