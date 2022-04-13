@@ -23,8 +23,6 @@ formInput.addEventListener('input', evt => {
 });
 //Слушатель на форм по сабмиту
 formEl.addEventListener('submit', searchBtnResponse);
-//Слушатель на кнопку загрузить еще
-// loadMoreBtn.addEventListener('click', loadMoreBtnResponce);
 
 //Функция для отправки запроса на кнопке поиска
 function searchBtnResponse(evt) {
@@ -45,7 +43,6 @@ function searchBtnResponse(evt) {
 function loadMoreBtnResponce() {
   if (querryPage > totalPages) {
     Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
-    // loadMoreBtn.classList.add('is-hidden');
     return;
   }
   //С каждым нажатием увеличиваем счетчик страниц
@@ -55,41 +52,37 @@ function loadMoreBtnResponce() {
 }
 
 //Функция для создания запроса и рендера разметки
-function createResponse() {
-  getImg(formData, querryPage)
-    //Если все ок создаем разметку с помощью функции
-    .then(response => {
-      //Если массив пустой, ретурн
-      if (response.data.hits.length === 0) {
-        Notiflix.Notify.failure(
-          'Sorry, there are no images matching your search query. Please try again.',
-        );
-        return;
-      }
-      //По сабмиту выводит количество найденных картинок
-      if (querryPage === 1) {
-        Notiflix.Notify.success(`Hooray! We found ${response.data.totalHits} images.`);
-      }
-      //Рендер разметки
-      galleryEl.insertAdjacentHTML('beforeend', imgDataMarkup(response));
-      //галерея лайтбокс
-      lightboxGallery();
-
-      //Делаем мягкую прокрутку на две карточки вниз
-      if (querryPage > 1) {
-        smoothScroll();
-      }
-      //Убираем лоад-мор по сабмиту
-      // loadMoreBtn.classList.remove('is-hidden');
-      loadMoreInfinity();
-    })
-    // // Если все плохо ловим ошибку
-    .catch(onError);
+async function createResponse() {
+  try {
+    const response = await getImg(formData, querryPage);
+    if (response.data.hits.length === 0) {
+      Notiflix.Notify.failure(
+        'Sorry, there are no images matching your search query. Please try again.',
+      );
+      return;
+    }
+    //По сабмиту выводит количество найденных картинок
+    if (querryPage === 1) {
+      Notiflix.Notify.success(`Hooray! We found ${response.data.totalHits} images.`);
+    }
+    //Рендер разметки
+    galleryEl.insertAdjacentHTML('beforeend', imgDataMarkup(response));
+    //галерея лайтбокс
+    lightboxGallery();
+    //Делаем мягкую прокрутку на две карточки вниз
+    if (querryPage > 1) {
+      smoothScroll();
+    }
+    //Убираем лоад-мор по сабмиту
+    // loadMoreBtn.classList.remove('is-hidden');
+    loadMoreInfinity();
+  } catch (error) {
+    console.log(error.message);
+  }
 }
 //Чистка хтмл
 function clearHtml() {
   galleryEl.innerHTML = '';
-  // loadMoreBtn.classList.add('is-hidden');
 }
 //Ошибки
 function onError() {
@@ -145,5 +138,4 @@ function loadMoreInfinity() {
   if (lastImg) {
     observer.observe(lastImg);
   }
-  console.log('inf');
 }
