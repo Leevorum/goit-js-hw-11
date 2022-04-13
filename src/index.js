@@ -12,7 +12,7 @@ const formInput = formEl.elements.searchQuery;
 const formSearchBtn = formEl.elements[1];
 const galleryEl = document.querySelector('.gallery');
 const loadMoreBtn = document.querySelector('.load-more');
-const lastImg = document.querySelector('.photo-card:last-child');
+
 let querryPage = 1;
 let limit = 40;
 const totalPages = 500 / limit;
@@ -141,7 +141,7 @@ function loadMoreInfinity() {
     });
   };
   const observer = new IntersectionObserver(callback, options);
-
+  const lastImg = document.querySelector('.photo-card:last-child');
   if (lastImg) {
     observer.observe(lastImg);
   }
