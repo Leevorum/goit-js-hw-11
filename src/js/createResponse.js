@@ -6,7 +6,6 @@ export default async function createResponse({
   lightboxGallery,
   smoothScroll,
   loadMoreInfinity,
-  loadMoreResponce,
   imgDataMarkup,
   galleryEl,
   Notiflix,
@@ -20,10 +19,11 @@ export default async function createResponse({
       );
       return;
     }
-    //По сабмиту выводит количество найденных картинок
     if (querryPage === 1) {
       Notiflix.Notify.success(`Hooray! We found ${response.data.totalHits} images.`);
     }
+    //По сабмиту выводит количество найденных картинок
+
     //Рендер разметки
     galleryEl.insertAdjacentHTML('beforeend', imgDataMarkup(response));
 
@@ -33,7 +33,25 @@ export default async function createResponse({
     if (querryPage > 1) {
       smoothScroll();
     }
-    loadMoreInfinity(loadMoreResponce);
+    querryPage += 1;
+    if (querryPage > totalPages + 1) {
+      Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
+      return;
+    }
+
+    loadMoreInfinity(createResponse, {
+      getImg,
+      formData,
+      querryPage,
+      lightboxGallery,
+      smoothScroll,
+      loadMoreInfinity,
+      loadMoreResponce,
+      imgDataMarkup,
+      galleryEl,
+      Notiflix,
+      totalPages,
+    });
   } catch (error) {
     console.log(error.message);
   }

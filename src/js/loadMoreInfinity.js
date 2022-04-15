@@ -1,5 +1,5 @@
 //Функция бесконечного скролла
-export default function loadMoreInfinity(loadMoreResponce) {
+export default function loadMoreInfinity(createResponse, params) {
   //обьект опций
   const options = {
     rootMargin: '0px',
@@ -12,7 +12,7 @@ export default function loadMoreInfinity(loadMoreResponce) {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         observer.unobserve(entry.target);
-        loadMoreResponce();
+        createResponse(params);
       }
     });
   };

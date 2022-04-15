@@ -17,7 +17,6 @@ const functionParams = {
   formData: '',
   querryPage: 1,
   totalPages,
-  loadMoreResponce,
   getImg,
   lightboxGallery,
   smoothScroll,
@@ -45,16 +44,6 @@ function searchBtnResponse(evt) {
   createResponse(functionParams);
   //Чистим хтмл
   clearHtml();
-}
-// Функция для дозагрузки картинок
-function loadMoreResponce() {
-  //Отправляем запросс
-  if (functionParams.querryPage > totalPages) {
-    Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
-    return;
-  }
-  functionParams.querryPage += 1;
-  createResponse(functionParams);
 }
 
 //Чистка хтмл
