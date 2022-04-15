@@ -46,7 +46,6 @@ export default async function createResponse({
       lightboxGallery,
       smoothScroll,
       loadMoreInfinity,
-      loadMoreResponce,
       imgDataMarkup,
       galleryEl,
       Notiflix,
