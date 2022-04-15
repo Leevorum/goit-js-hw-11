@@ -2,6 +2,9 @@ import './css/styles.css';
 import getImg from './js/fetchImages.js';
 import imgDataMarkup from './js/imgDataMarkup';
 import Notiflix from 'notiflix';
+import loadMoreInfinity from './js/loadMoreInfinity.js';
+import lightboxGallery from './js/lightboxGallery.js';
+import smoothScroll from './js/smoothScroll.js';
 // Описан в документации
 import SimpleLightbox from 'simplelightbox';
 // Дополнительный импорт стилей
@@ -40,7 +43,7 @@ function searchBtnResponse(evt) {
   clearHtml();
 }
 //Функция для дозагрузки картинок
-function loadMoreBtnResponce() {
+function loadMoreResponce() {
   if (querryPage > totalPages) {
     Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
     return;
@@ -68,14 +71,14 @@ async function createResponse() {
     //Рендер разметки
     galleryEl.insertAdjacentHTML('beforeend', imgDataMarkup(response));
     //галерея лайтбокс
-    lightboxGallery();
+    lightboxGallery(querryPage);
     //Делаем мягкую прокрутку на две карточки вниз
     if (querryPage > 1) {
       smoothScroll();
     }
     //Убираем лоад-мор по сабмиту
     // loadMoreBtn.classList.remove('is-hidden');
-    loadMoreInfinity();
+    loadMoreInfinity(loadMoreResponce);
   } catch (error) {
     console.log(error.message);
   }
@@ -87,55 +90,4 @@ function clearHtml() {
 //Ошибки
 function onError() {
   Notiflix.Notify.failure('Sorry, something went wrong . Please try again.');
-}
-//лайтбокс
-function lightboxGallery() {
-  const instance = new SimpleLightbox('.gallery .gallery__link', {
-    // Задержка появления подписи
-    showCounter: false,
-    captionDelay: 250,
-    captionSelector: 'img',
-    //   Берем подпись из альта картинки
-    captionsData: 'alt',
-    //   Ставим подпись вниз картинки
-    captionPosition: 'bottom',
-  });
-  if (querryPage > 1) {
-    instance.refresh();
-  }
-}
-//Функция мягкой прокрутки при загрузке новых картинок
-function smoothScroll() {
-  const { height: cardHeight } = document
-    .querySelector('.gallery')
-    .firstElementChild.getBoundingClientRect();
-
-  window.scrollBy({
-    top: cardHeight * 2,
-    behavior: 'smooth',
-  });
-}
-//Функция бесконечного скролла
-function loadMoreInfinity() {
-  //обьект опций
-  const options = {
-    rootMargin: '0px',
-    threshold: [0, 0.25, 0.5, 0.75, 1.0],
-  };
-  //коллбек с вызовом следующего запроса
-  const callback = function(entries, observer) {
-    //Если нужный элемент просмотрен(Intersecting:true)
-    //Сбрасываем "просмотренно", и вызываем функцию запроса
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        observer.unobserve(entry.target);
-        loadMoreBtnResponce();
-      }
-    });
-  };
-  const observer = new IntersectionObserver(callback, options);
-  const lastImg = document.querySelector('.photo-card:last-child');
-  if (lastImg) {
-    observer.observe(lastImg);
-  }
 }
