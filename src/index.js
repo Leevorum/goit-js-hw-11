@@ -34,9 +34,8 @@ functionParams.formEl.addEventListener('submit', searchBtnResponse);
 function searchBtnResponse(evt) {
   evt.preventDefault();
   functionParams.querryPage = 1;
-
   //Если строка пустая не отправляем запрос
-  if (functionParams.formData === '') {
+  if (functionParams.formData.trim() === '') {
     Notiflix.Notify.info('Please fill in input field!');
     return;
   }
