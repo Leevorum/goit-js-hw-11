@@ -1,9 +1,9 @@
+import { instance } from './lightboxGallery.js';
 //Функция для создания запроса и рендера разметки
 export default async function createResponse({
   getImg,
   formData,
   querryPage,
-  lightboxGallery,
   smoothScroll,
   loadMoreInfinity,
   imgDataMarkup,
@@ -28,7 +28,8 @@ export default async function createResponse({
     galleryEl.insertAdjacentHTML('beforeend', imgDataMarkup(response));
 
     //галерея лайтбокс
-    lightboxGallery(querryPage);
+    instance.refresh();
+
     //Делаем мягкую прокрутку на две карточки вниз
     if (querryPage > 1) {
       smoothScroll();
@@ -42,7 +43,6 @@ export default async function createResponse({
       getImg,
       formData,
       querryPage,
-      lightboxGallery,
       smoothScroll,
       loadMoreInfinity,
       imgDataMarkup,

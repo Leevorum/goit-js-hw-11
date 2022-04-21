@@ -41,6 +41,7 @@ function searchBtnResponse(evt) {
   }
   //Вызываем функцию для создания запроса
   createResponse(functionParams);
+  lightboxGallery();
   //Чистим хтмл
   clearHtml();
 }
@@ -49,3 +50,12 @@ function searchBtnResponse(evt) {
 function clearHtml() {
   functionParams.galleryEl.innerHTML = '';
 }
+
+Promise.reject('a')
+  .catch(p => p + 'b')
+  .catch(p => p + 'c')
+  .then(p => p + 'd')
+  .finally(p => {
+    p + 'e';
+  })
+  .then(p => console.log(p));
