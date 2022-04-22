@@ -15,7 +15,6 @@ export default function loadMoreInfinity(createResponse, params) {
         observer.unobserve(entry.target);
         //Если количество страниц достигает предела, выбрасываем сообщение
         //Если на странице контента только на один запрос, выбрасываем это же сообщение после прокрутки страници вниз
-        console.log(params.totalHits);
         if (
           params.querryPage > Math.ceil(params.totalHits / params.limit) ||
           Number(params.totalHits) <= 40
