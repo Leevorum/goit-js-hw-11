@@ -41,7 +41,7 @@ function searchBtnResponse(evt) {
   }
   //Вызываем функцию для создания запроса
   createResponse(functionParams);
-  lightboxGallery();
+  // lightboxGallery();
   //Чистим хтмл
   clearHtml();
 }
