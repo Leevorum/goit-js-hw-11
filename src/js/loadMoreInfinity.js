@@ -14,7 +14,7 @@ export default function loadMoreInfinity(createResponse, params) {
         observer.unobserve(entry.target);
         //Если количество страниц достигает предела, выбрасываем сообщение
         //Если на странице контента только на один запрос, выбрасываем это же сообщение после прокрутки страници вниз
-        if (params.querryPage > params.totalPages + 1 || Number(params.totalHits) <= 40) {
+        if (params.querryPage > Math.ceil(params.totalPages) || Number(params.totalHits) <= 40) {
           params.Notiflix.Notify.failure(
             "We're sorry, but you've reached the end of search results.",
           );

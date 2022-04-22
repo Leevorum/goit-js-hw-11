@@ -12,6 +12,7 @@ export default async function createResponse({
   totalPages,
 }) {
   try {
+    console.log(querryPage);
     //По сабмиту выводит количество найденных картинок
     const response = await getImg(formData, querryPage);
     //Если запрос пустой выбрасываем ошибку
