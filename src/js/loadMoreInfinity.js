@@ -1,3 +1,4 @@
+import Notiflix from 'notiflix';
 //Функция бесконечного скролла
 export default function loadMoreInfinity(createResponse, params) {
   //обьект опций
@@ -14,10 +15,12 @@ export default function loadMoreInfinity(createResponse, params) {
         observer.unobserve(entry.target);
         //Если количество страниц достигает предела, выбрасываем сообщение
         //Если на странице контента только на один запрос, выбрасываем это же сообщение после прокрутки страници вниз
-        if (params.querryPage > Math.ceil(params.totalPages) || Number(params.totalHits) <= 40) {
-          params.Notiflix.Notify.failure(
-            "We're sorry, but you've reached the end of search results.",
-          );
+        console.log(params.totalHits);
+        if (
+          params.querryPage > Math.ceil(params.totalHits / params.limit) ||
+          Number(params.totalHits) <= 40
+        ) {
+          Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
           return;
         }
         //Функция запроса и отрисовки

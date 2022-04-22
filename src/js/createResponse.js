@@ -1,18 +1,12 @@
 import { instance } from './lightboxGallery.js';
+import getImg from './fetchImages.js';
+import smoothScroll from './smoothScroll.js';
+import loadMoreInfinity from './loadMoreInfinity.js';
+import imgDataMarkup from './imgDataMarkup.js';
+import Notiflix from 'notiflix';
 //Функция для создания запроса и рендера разметки
-export default async function createResponse({
-  getImg,
-  formData,
-  querryPage,
-  smoothScroll,
-  loadMoreInfinity,
-  imgDataMarkup,
-  galleryEl,
-  Notiflix,
-  totalPages,
-}) {
+export default async function createResponse({ formData, querryPage, galleryEl, limit }) {
   try {
-    console.log(querryPage);
     //По сабмиту выводит количество найденных картинок
     const response = await getImg(formData, querryPage);
     //Если запрос пустой выбрасываем ошибку
@@ -41,15 +35,10 @@ export default async function createResponse({
     //Передаем нашей функции обьект тех же параметров, с обновленными счетчиками
     loadMoreInfinity(createResponse, {
       totalHits: response.data.totalHits,
-      getImg,
       formData,
       querryPage,
-      smoothScroll,
-      loadMoreInfinity,
-      imgDataMarkup,
       galleryEl,
-      Notiflix,
-      totalPages,
+      limit,
     });
   } catch (error) {
     console.log(error.message);
