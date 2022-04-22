@@ -1,7 +1,4 @@
 import './css/styles.css';
-
-import Notiflix from 'notiflix';
-import createResponse from './js/createResponse.js';
 import searchBtnResponse from './js/searchBtnResponse.js';
 import functionParams from './js/functionParams';
 //Параметры функций
