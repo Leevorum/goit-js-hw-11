@@ -29,8 +29,11 @@ export default function loadMoreInfinity(createResponse, params) {
       }
     });
   };
+  //Используем апи браузера IntersectionObserver
   const observer = new IntersectionObserver(callback, options);
+  //Выбирает последний элемент галереи, на котором будет наблдюдатель IntersectionObserver
   const lastImg = document.querySelector('.photo-card:last-child');
+  //Если такой есть то ставим на него наблюдателя
   if (lastImg) {
     observer.observe(lastImg);
   }

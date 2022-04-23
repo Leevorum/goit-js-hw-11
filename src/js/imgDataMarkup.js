@@ -1,3 +1,4 @@
+//Функция рендера галереи
 export default function imgDataMarkup(data) {
   return data.data.hits
     .map(
