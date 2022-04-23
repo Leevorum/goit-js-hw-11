@@ -1,3 +1,4 @@
+//Переменные
 const functionParams = {
   formEl: document.querySelector('.search-form'),
   galleryEl: document.querySelector('.gallery'),

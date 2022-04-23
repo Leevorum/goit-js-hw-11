@@ -13,6 +13,8 @@ export default function loadMoreInfinity(createResponse, params) {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         observer.unobserve(entry.target);
+        //Увеличиваем счетчик страниц
+        params.querryPage += 1;
         //Если количество страниц достигает предела, выбрасываем сообщение
         //Если на странице контента только на один запрос, выбрасываем это же сообщение после прокрутки страници вниз
         if (

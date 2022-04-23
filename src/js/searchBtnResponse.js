@@ -1,6 +1,7 @@
 import createResponse from './createResponse';
 import clearHtml from './clearHtml';
 import functionParams from './functionParams';
+import Notiflix from 'notiflix';
 //Функция для отправки запроса на кнопке поиска
 export default function searchBtnResponse(evt) {
   evt.preventDefault();

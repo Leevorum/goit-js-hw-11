@@ -29,8 +29,6 @@ export default async function createResponse({ formData, querryPage, galleryEl, 
     if (querryPage > 1) {
       smoothScroll();
     }
-    //Увеличиваем счетчик страниц
-    querryPage += 1;
     //Вызываем функцию врапер с бесконечным скролом
     //Передаем нашей функции обьект тех же параметров, с обновленными счетчиками
     loadMoreInfinity(createResponse, {
